@@ -1,0 +1,29 @@
+[
+    {
+      "$match": {
+        "imdb.rating": { "$type": "number" }
+      }
+    },
+    {
+      "$project": {
+        "_id": 0,
+        "title": 1,
+        "imdbRating": "$imdb.rating",
+        "commentCount": "$num_mflix_comments"
+      }
+    },
+    {
+      "$group": {
+        "_id": "$title",
+        "imdbRating": { "$first": "$imdbRating" },
+        "commentCount": { "$first": "$commentCount" }
+      }
+    },
+    {
+      "$sort": { "imdbRating": -1 }
+    },
+    {
+      "$limit": 5
+    }
+  ]
+  
